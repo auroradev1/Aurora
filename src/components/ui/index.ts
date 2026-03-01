@@ -7,4 +7,3 @@ export { TextareaInput } from "./TextareaInput";
 export { FeatureGridItem } from "./FeatureGridItem";
 export type { FeatureGridItemProps } from "./FeatureGridItem";
 export { IconCard } from "./IconCard";
-export { CustomCursor } from "./Cursor";

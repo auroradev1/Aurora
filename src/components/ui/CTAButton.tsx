@@ -54,9 +54,7 @@ export function CTAButton({
     label
   );
 
-  const handleClick = (
-    e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>,
-  ) => {
+  const handleClick = () => {
     if (onClick) {
       onClick();
     }
@@ -85,7 +83,7 @@ export function CTAButton({
           rel="noopener noreferrer"
           onClick={handleClick}
           className={combinedClass}
-          aria-disabled={disabled || loading}
+          aria-disabled={disabled || loading ? true : undefined}
         >
           {content}
         </a>

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 export function HeroCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const rafRef = useRef<number>();
+  const rafRef = useRef<number | null>(null);
   const [dimensions, setDimensions] = useState(() => ({ width: 0, height: 0 }));
 
   useEffect(() => {
