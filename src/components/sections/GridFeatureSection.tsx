@@ -1,6 +1,5 @@
 "use client";
 
-import { SectionHeader } from "@/components/ui/SectionHeader";
 import { FeatureGridItem } from "@/components/ui/FeatureGridItem";
 import type { FeatureGridItemProps } from "@/components/ui/FeatureGridItem";
 import { useStaggeredReveal } from "@/hooks/useScrollReveal";

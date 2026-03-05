@@ -218,6 +218,16 @@ a {
   }
 }
 
+/* Hide scroll bar while maintaining functionality */
+html {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+html::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
 /* Form inputs — theme border and focus ring */
 input,
 textarea {
