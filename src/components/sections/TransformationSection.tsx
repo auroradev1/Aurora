@@ -111,11 +111,10 @@ export function TransformationSection() {
           >
             Transformation
           </h2>
-          <p className="text-[var(--text-muted)] max-w-[600px] mx-auto leading-[1.8] text-[15px]">
+          <p className="text-[#9CA3AF] max-w-[600px] mx-auto leading-[1.6] text-[16px]">
             With real-time data dashboards, growth analytics, and custom CRM
-            Integration we&apos;re not just software — it&apos;s your
-            company&apos;s AI nervous system. Data-Driven Intelligence at Every
-            Step.
+            integration we're not just software — it's your company's AI nervous
+            system. Data-Driven Intelligence at Every Step.
           </p>
         </div>
 
@@ -140,7 +139,7 @@ export function TransformationSection() {
           />
         </div>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 hidden sm:hidden lg:grid">
           {iconCardsData.map((card) => (
             <IconCard
               key={card.title}

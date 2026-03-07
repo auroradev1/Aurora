@@ -41,13 +41,13 @@ export function Footer() {
   return (
     <footer className="border-t border-[var(--border)] bg-[var(--bg)] py-8 px-8">
       <div className="mx-auto max-w-[1100px]">
-        <div className="grid grid-cols-2 gap-10 mb-12 md:grid-cols-4" role="navigation" aria-label="Footer">
+        <div
+          className="grid grid-cols-2 gap-10 mb-12 md:grid-cols-4 text-center md:text-left"
+          role="navigation"
+          aria-label="Footer"
+        >
           {footerColumns.map((col) => (
-            <FooterColumn
-              key={col.title}
-              title={col.title}
-              links={col.links}
-            />
+            <FooterColumn key={col.title} title={col.title} links={col.links} />
           ))}
         </div>
         <div className="flex flex-col items-center justify-between gap-4 border-t border-[var(--border)] pt-6 sm:flex-row">
