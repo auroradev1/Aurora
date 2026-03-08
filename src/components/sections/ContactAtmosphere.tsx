@@ -1,12 +1,17 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useShouldAnimate } from "@/hooks/usePerformanceDetection";
 
 export function ContactAtmosphere() {
+  const shouldAnimate = useShouldAnimate();
   const glowRef = useRef<HTMLDivElement>(null);
   const beamRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Only run complex animations if performance allows
+    if (!shouldAnimate) return;
+
     const glow = glowRef.current;
     const beam = beamRef.current;
 
@@ -55,7 +60,7 @@ export function ContactAtmosphere() {
         input.removeEventListener("blur", handleBlur);
       });
     };
-  }, []);
+  }, [shouldAnimate]);
 
   return (
     <>
@@ -73,6 +78,7 @@ export function ContactAtmosphere() {
         style={{
           left: "-200px",
           transition: "left 8s linear",
+          display: shouldAnimate ? "block" : "none",
         }}
       />
     </>

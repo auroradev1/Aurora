@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useShouldAnimate } from "@/hooks/usePerformanceDetection";
 
 export function HeroCanvas() {
+  const shouldAnimate = useShouldAnimate();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rafRef = useRef<number | null>(null) as React.MutableRefObject<
     number | null
@@ -25,6 +27,9 @@ export function HeroCanvas() {
   }, []);
 
   useEffect(() => {
+    // Only run complex animation if performance allows
+    if (!shouldAnimate) return;
+
     const canvas = canvasRef.current;
     if (!canvas || !dimensions.width || !dimensions.height) return;
 
@@ -298,7 +303,19 @@ export function HeroCanvas() {
       }
       clearInterval(shooterInterval);
     };
-  }, [dimensions]);
+  }, [dimensions, shouldAnimate]);
+
+  // Early return if animations are disabled - render empty canvas
+  if (!shouldAnimate) {
+    return (
+      <canvas
+        ref={canvasRef}
+        id="hero-canvas"
+        className="fixed inset-0 w-screen h-screen pointer-events-none"
+        style={{ willChange: "transform", zIndex: -1 }}
+      />
+    );
+  }
 
   return (
     <canvas

@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useLayoutEffect } from "react";
+import { useShouldAnimate } from "./usePerformanceDetection";
 
 type UseScrollRevealOptions = {
   threshold?: number;
@@ -11,13 +12,20 @@ type UseScrollRevealOptions = {
 
 export function useScrollReveal(options: UseScrollRevealOptions = {}) {
   const { threshold = 0.15, rootMargin = "0px", once = true } = options;
+  const shouldAnimate = useShouldAnimate();
 
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLElement>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const element = ref.current;
     if (!element) return;
+
+    // If animations are disabled, immediately set to visible
+    if (!shouldAnimate) {
+      setIsVisible(true);
+      return;
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -36,7 +44,7 @@ export function useScrollReveal(options: UseScrollRevealOptions = {}) {
     observer.observe(element);
 
     return () => observer.disconnect();
-  }, [threshold, rootMargin, once]);
+  }, [threshold, rootMargin, once, shouldAnimate]);
 
   return { ref, isVisible };
 }
@@ -51,11 +59,21 @@ export function useStaggeredReveal(
     once = true,
     stagger = 100,
   } = options;
+  const shouldAnimate = useShouldAnimate();
   const [visibleItems, setVisibleItems] = useState<Set<number>>(new Set());
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const container = containerRef.current;
     if (!container) return;
+
+    // If animations are disabled, immediately set all items to visible
+    if (!shouldAnimate) {
+      const items = container.querySelectorAll("[data-stagger-item]");
+      const allIndexes = new Set<number>();
+      items.forEach((_, index) => allIndexes.add(index));
+      setVisibleItems(allIndexes);
+      return;
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -78,7 +96,7 @@ export function useStaggeredReveal(
     observer.observe(container);
 
     return () => observer.disconnect();
-  }, [containerRef, threshold, rootMargin, once, stagger]);
+  }, [containerRef, threshold, rootMargin, once, stagger, shouldAnimate]);
 
   return { visibleItems };
 }
