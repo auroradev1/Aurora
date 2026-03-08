@@ -113,7 +113,7 @@ export function TransformationSection() {
           </h2>
           <p className="text-[#9CA3AF] max-w-[600px] mx-auto leading-[1.6] text-[16px]">
             With real-time data dashboards, growth analytics, and custom CRM
-            integration we're not just software — it's your company's AI nervous
+            integration we's not just software — it's your company's AI nervous
             system. Data-Driven Intelligence at Every Step.
           </p>
         </div>

@@ -4,8 +4,8 @@ import Link from "next/link";
 
 type CTAButtonProps = {
   label: string;
-  onClick?: () => void;
-  href?: string;
+  onClick?: (() => void) | undefined;
+  href?: string | undefined;
   type?: "button" | "submit";
   disabled?: boolean;
   loading?: boolean;
@@ -83,7 +83,7 @@ export function CTAButton({
           rel="noopener noreferrer"
           onClick={handleClick}
           className={combinedClass}
-          aria-disabled={disabled || loading ? true : undefined}
+          aria-disabled={disabled || loading}
         >
           {content}
         </a>

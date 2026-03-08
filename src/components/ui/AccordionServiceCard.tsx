@@ -5,7 +5,7 @@ export type AccordionServiceCardProps = {
   subtitle: string;
   details: string;
   icon?: React.ReactNode;
-  href?: string;
+  href?: string | undefined;
 };
 
 export function AccordionServiceCard({
@@ -27,7 +27,7 @@ export function AccordionServiceCard({
         type="button"
         onClick={toggleExpanded}
         className="w-full flex items-center justify-between p-4 sm:p-6 text-left group focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2 focus:ring-offset-background"
-        aria-expanded={isExpanded ? "true" : "false"}
+        aria-expanded={isExpanded}
         aria-controls={`accordion-content-${title.toLowerCase().replace(/\s+/g, "-")}`}
       >
         <div className="flex items-center gap-4 flex-1">

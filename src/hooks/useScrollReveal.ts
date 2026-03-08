@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useLayoutEffect } from "react";
+import { useRef, useState, useLayoutEffect } from "react";
 import { useShouldAnimate } from "./usePerformanceDetection";
 
 type UseScrollRevealOptions = {
@@ -10,26 +10,23 @@ type UseScrollRevealOptions = {
   stagger?: number;
 };
 
-export function useScrollReveal(options: UseScrollRevealOptions = {}) {
+export function useScrollReveal(options: UseScrollRevealOptions = {}): {
+  ref: React.MutableRefObject<HTMLElement | null>;
+  isVisible: boolean;
+} {
   const { threshold = 0.15, rootMargin = "0px", once = true } = options;
   const shouldAnimate = useShouldAnimate();
 
-  const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef<HTMLElement>(null);
+  const [isVisible, setIsVisible] = useState<boolean>(!shouldAnimate);
+  const ref = useRef<HTMLElement | null>(null);
 
   useLayoutEffect(() => {
     const element = ref.current;
-    if (!element) return;
-
-    // If animations are disabled, immediately set to visible
-    if (!shouldAnimate) {
-      setIsVisible(true);
-      return;
-    }
+    if (!element || !shouldAnimate) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        if (entry?.isIntersecting) {
           setIsVisible(true);
           if (once) {
             observer.unobserve(element);
@@ -52,7 +49,7 @@ export function useScrollReveal(options: UseScrollRevealOptions = {}) {
 export function useStaggeredReveal(
   containerRef: React.RefObject<HTMLElement>,
   options: UseScrollRevealOptions = {},
-) {
+): { visibleItems: Set<number> } {
   const {
     threshold = 0.15,
     rootMargin = "0px",
@@ -71,15 +68,18 @@ export function useStaggeredReveal(
       const items = container.querySelectorAll("[data-stagger-item]");
       const allIndexes = new Set<number>();
       items.forEach((_, index) => allIndexes.add(index));
-      setVisibleItems(allIndexes);
+      // Use setTimeout to avoid synchronous state update
+      setTimeout(() => {
+        setVisibleItems(allIndexes);
+      }, 0);
       return;
     }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        if (entry?.isIntersecting) {
           const items = container.querySelectorAll("[data-stagger-item]");
-          items.forEach((item, index) => {
+          items.forEach((_, index) => {
             setTimeout(() => {
               setVisibleItems((prev) => new Set([...prev, index]));
             }, index * stagger);

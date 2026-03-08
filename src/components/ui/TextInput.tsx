@@ -3,7 +3,7 @@ type TextInputProps = {
   placeholder: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  error?: string;
+  error?: string | undefined;
   disabled?: boolean;
   label?: string;
   type?: "text" | "email";
@@ -43,14 +43,18 @@ export function TextInput({
         onChange={onChange}
         required={required}
         disabled={disabled}
-        aria-invalid={!!error}
+        aria-invalid={error ? true : false}
         aria-describedby={error ? `${id}-error` : undefined}
         className={`w-full border bg-[var(--surface-alt)] px-4 py-3 text-foreground placeholder:text-[var(--text-dim)] rounded-lg focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed ${
           error ? "border-red-500" : "border-[var(--border)]"
         }`}
       />
       {error && (
-        <p id={`${id}-error`} className="mt-1 text-sm text-red-500" role="alert">
+        <p
+          id={`${id}-error`}
+          className="mt-1 text-sm text-red-500"
+          role="alert"
+        >
           {error}
         </p>
       )}

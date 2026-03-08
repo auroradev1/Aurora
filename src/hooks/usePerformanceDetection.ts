@@ -7,7 +7,7 @@ type PerformanceTier = "high" | "medium" | "low";
 interface PerformanceMetrics {
   tier: PerformanceTier;
   isHighPerformance: boolean;
-  deviceMemory?: number;
+  deviceMemory: number | undefined;
   hardwareConcurrency?: number;
   screenWidth: number;
   screenHeight: number;
@@ -18,8 +18,8 @@ export function usePerformanceDetection() {
   const [metrics, setMetrics] = useState<PerformanceMetrics>({
     tier: "medium",
     isHighPerformance: false,
-    deviceMemory: undefined,
-    hardwareConcurrency: undefined,
+    deviceMemory: 0,
+    hardwareConcurrency: 0,
     screenWidth: 0,
     screenHeight: 0,
     isReducedMotion: false,
@@ -43,10 +43,21 @@ export function usePerformanceDetection() {
       let hardwareConcurrency: number | undefined;
 
       try {
-        // @ts-expect-error - deviceMemory is not always available
-        deviceMemory = navigator.deviceMemory;
-        hardwareConcurrency = navigator.hardwareConcurrency;
-      } catch (e) {
+        // Check if deviceMemory is available
+        if ("deviceMemory" in navigator) {
+          deviceMemory = (navigator as Navigator & { deviceMemory?: number })
+            .deviceMemory;
+        } else {
+          deviceMemory = 4; // Conservative estimate
+        }
+
+        // Check if hardwareConcurrency is available
+        if ("hardwareConcurrency" in navigator) {
+          hardwareConcurrency = navigator.hardwareConcurrency;
+        } else {
+          hardwareConcurrency = 4; // Conservative estimate
+        }
+      } catch {
         // Fallback values for browsers that don't support these APIs
         deviceMemory = 4; // Conservative estimate
         hardwareConcurrency = 4; // Conservative estimate
@@ -119,28 +130,15 @@ export function usePerformanceDetection() {
     // Also listen for resize to detect desktop/mobile switches
     const handleResize = () => {
       // Debounce resize events
-      clearTimeout(
-        (
-          window as Window &
-            typeof globalThis & { __resizeTimer?: number | NodeJS.Timeout }
-        ).__resizeTimer,
-      );
-      (
-        window as Window &
-          typeof globalThis & { __resizeTimer?: number | NodeJS.Timeout }
-      ).__resizeTimer = setTimeout(detectPerformance, 250);
+      clearTimeout(window.__resizeTimer);
+      window.__resizeTimer = setTimeout(detectPerformance, 250);
     };
     window.addEventListener("resize", handleResize);
 
     return () => {
       mediaQuery.removeEventListener("change", handleReducedMotionChange);
       window.removeEventListener("resize", handleResize);
-      clearTimeout(
-        (
-          window as Window &
-            typeof globalThis & { __resizeTimer?: number | NodeJS.Timeout }
-        ).__resizeTimer,
-      );
+      clearTimeout(window.__resizeTimer);
     };
   }, []);
 

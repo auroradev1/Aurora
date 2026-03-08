@@ -5,7 +5,6 @@ import { AccordionServiceCard } from "@/components/ui/AccordionServiceCard";
 import type { FeatureGridItemProps } from "@/components/ui/FeatureGridItem";
 import { useStaggeredReveal } from "@/hooks/useScrollReveal";
 import { useRef, useState, useEffect } from "react";
-import { TextLink } from "@/components/ui/TextLink";
 
 export const INTERLINK_FEATURES: FeatureGridItemProps[] = [
   {
@@ -182,7 +181,7 @@ export function GridFeatureSection() {
         <button
           onClick={handleToggleServices}
           className="text-link min-h-[44px] min-w-[44px] flex items-center justify-center"
-          aria-expanded={showAllServices ? "true" : "false"}
+          aria-expanded={showAllServices}
           aria-controls="mobile-services-grid"
         >
           {showAllServices ? "See Less Services ▲" : "See All Services ▼"}
