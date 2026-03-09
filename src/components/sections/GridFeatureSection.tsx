@@ -35,14 +35,16 @@ export function GridFeatureSection() {
 
   const [showAllServices, setShowAllServices] = useState(false);
   const [isLargeScreen, setIsLargeScreen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const checkScreenSize = () => {
       setIsLargeScreen(window.innerWidth >= 1024);
+      setIsMobile(window.innerWidth <= 768);
     };
 
     checkScreenSize();
-    window.addEventListener("resize", checkScreenSize);
+    window.addEventListener("resize", checkScreenSize, { passive: true });
 
     return () => {
       window.removeEventListener("resize", checkScreenSize);
@@ -181,7 +183,7 @@ export function GridFeatureSection() {
         <button
           onClick={handleToggleServices}
           className="text-link min-h-[44px] min-w-[44px] flex items-center justify-center"
-          aria-expanded={showAllServices}
+          aria-expanded={showAllServices ? "true" : "false"}
           aria-controls="mobile-services-grid"
         >
           {showAllServices ? "See Less Services ▲" : "See All Services ▼"}

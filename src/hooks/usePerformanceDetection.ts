@@ -38,6 +38,13 @@ export function usePerformanceDetection() {
         "(prefers-reduced-motion: reduce)",
       ).matches;
 
+      // Check for mobile device detection
+      const isMobile =
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+          navigator.userAgent,
+        );
+      const isTablet = /iPad|Android(?!.*Mobile)/i.test(navigator.userAgent);
+
       // Get device capabilities (may be undefined on some browsers)
       let deviceMemory: number | undefined;
       let hardwareConcurrency: number | undefined;
@@ -70,33 +77,66 @@ export function usePerformanceDetection() {
       // Desktop detection (screen width > 1024px)
       const isDesktop = screenWidth > 1024;
 
-      // Performance scoring logic
+      // Performance scoring logic - more conservative for mobile
       let score = 0;
 
-      // Device memory scoring (in GB)
+      // Device memory scoring (in GB) - more conservative on mobile
       if (deviceMemory) {
         if (deviceMemory >= 8) score += 3;
         else if (deviceMemory >= 4) score += 2;
         else if (deviceMemory >= 2) score += 1;
+        else score -= 1; // Penalize low memory devices
       }
 
-      // Hardware concurrency scoring (CPU cores)
+      // Hardware concurrency scoring (CPU cores) - more conservative on mobile
       if (hardwareConcurrency) {
         if (hardwareConcurrency >= 8) score += 3;
         else if (hardwareConcurrency >= 4) score += 2;
         else if (hardwareConcurrency >= 2) score += 1;
+        else score -= 1; // Penalize single-core devices
       }
 
-      // Screen size bonus for desktop
-      if (isDesktop) score += 2;
+      // Screen size and device type adjustments
+      if (isDesktop) {
+        score += 2; // Desktop gets bonus
+      } else if (isMobile) {
+        score -= 2; // Mobile gets penalty for animations
+      } else if (isTablet) {
+        score -= 1; // Tablet gets slight penalty
+      }
 
-      // Determine tier based on score
-      if (score >= 7) {
+      // Network connection quality check (if available)
+      if ("connection" in navigator) {
+        const connection = (
+          navigator as Navigator & {
+            connection?: {
+              effectiveType?: "slow-2g" | "2g" | "3g" | "4g";
+            };
+          }
+        ).connection;
+        if (connection && connection.effectiveType) {
+          switch (connection.effectiveType) {
+            case "4g":
+              score += 1;
+              break;
+            case "3g":
+              score -= 1;
+              break;
+            case "2g":
+            case "slow-2g":
+              score -= 2;
+              break;
+          }
+        }
+      }
+
+      // Determine tier based on score with more conservative thresholds
+      if (score >= 8 && isDesktop) {
         tier = "high";
         isHighPerformance = true;
-      } else if (score >= 4) {
+      } else if (score >= 5) {
         tier = "medium";
-        isHighPerformance = isDesktop; // Desktop gets animations even if medium
+        isHighPerformance = isDesktop; // Only desktop gets animations on medium
       } else {
         tier = "low";
         isHighPerformance = false;
@@ -104,6 +144,12 @@ export function usePerformanceDetection() {
 
       // Override if user prefers reduced motion
       if (isReducedMotion) {
+        isHighPerformance = false;
+        tier = "low";
+      }
+
+      // Additional mobile-specific overrides
+      if (isMobile && deviceMemory && deviceMemory < 4) {
         isHighPerformance = false;
         tier = "low";
       }
@@ -133,7 +179,30 @@ export function usePerformanceDetection() {
       clearTimeout(window.__resizeTimer);
       window.__resizeTimer = setTimeout(detectPerformance, 250);
     };
-    window.addEventListener("resize", handleResize);
+    window.addEventListener("resize", handleResize, { passive: true });
+
+    // Listen for connection changes
+    if ("connection" in navigator) {
+      const connection = (
+        navigator as Navigator & {
+          connection?: {
+            addEventListener: (type: string, listener: () => void) => void;
+            removeEventListener: (type: string, listener: () => void) => void;
+          };
+        }
+      ).connection;
+      if (connection) {
+        const handleConnectionChange = () => detectPerformance();
+        connection.addEventListener("change", handleConnectionChange);
+
+        return () => {
+          mediaQuery.removeEventListener("change", handleReducedMotionChange);
+          window.removeEventListener("resize", handleResize);
+          connection.removeEventListener("change", handleConnectionChange);
+          clearTimeout(window.__resizeTimer);
+        };
+      }
+    }
 
     return () => {
       mediaQuery.removeEventListener("change", handleReducedMotionChange);

@@ -10,6 +10,18 @@ export function HeroCanvas() {
     number | null
   >;
   const [dimensions, setDimensions] = useState(() => ({ width: 0, height: 0 }));
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -36,36 +48,50 @@ export function HeroCanvas() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Set canvas resolution
-    canvas.width = Math.floor(dimensions.width * window.devicePixelRatio);
-    canvas.height = Math.floor(dimensions.height * window.devicePixelRatio);
-    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    // Mobile optimization: cap canvas resolution
+    const maxCanvasSize = isMobile ? 1500 : 3000;
+    const canvasWidth = Math.min(
+      Math.floor(dimensions.width * window.devicePixelRatio),
+      maxCanvasSize,
+    );
+    const canvasHeight = Math.min(
+      Math.floor(dimensions.height * window.devicePixelRatio),
+      maxCanvasSize,
+    );
 
-    // Initialize stars
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+    ctx.scale(canvasWidth / dimensions.width, canvasHeight / dimensions.height);
+
+    // Initialize stars with mobile optimization
     const stars: Star[] = [];
-    const count = Math.floor((dimensions.width * dimensions.height) / 3000);
+    const starCount = isMobile
+      ? Math.floor((dimensions.width * dimensions.height) / 8000) // Fewer stars on mobile
+      : Math.floor((dimensions.width * dimensions.height) / 3000);
 
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < starCount; i++) {
       stars.push({
         x: Math.random() * dimensions.width,
         y: Math.random() * dimensions.height * 0.72,
-        r: Math.random() * 1.4 + 0.2,
+        r: Math.random() * (isMobile ? 1.0 : 1.4) + 0.2,
         alpha: Math.random() * 0.8 + 0.2,
-        twinkleSpeed: Math.random() * 0.02 + 0.005,
+        twinkleSpeed: Math.random() * (isMobile ? 0.01 : 0.02) + 0.005,
         twinkleOffset: Math.random() * Math.PI * 2,
       });
     }
 
-    // Initialize shooting stars
+    // Initialize shooting stars with mobile optimization
     const shooters: Shooter[] = [];
     let tick = 0;
+    let frameSkip = 0;
+    const frameSkipCount = isMobile ? 2 : 0; // Skip frames on mobile
 
     const spawnShooter = () => {
       shooters.push({
         x: Math.random() * dimensions.width * 0.8,
         y: Math.random() * dimensions.height * 0.35,
-        len: Math.random() * 120 + 60,
-        speed: Math.random() * 6 + 4,
+        len: Math.random() * (isMobile ? 80 : 120) + (isMobile ? 40 : 60),
+        speed: Math.random() * (isMobile ? 4 : 6) + (isMobile ? 2 : 4),
         alpha: 1,
         angle: Math.PI / 4 + (Math.random() - 0.5) * 0.3,
       });
@@ -73,10 +99,18 @@ export function HeroCanvas() {
 
     const shooterInterval = setInterval(
       spawnShooter,
-      4000 + Math.random() * 3000,
+      isMobile ? 6000 : 4000 + Math.random() * 3000,
     );
 
     const draw = () => {
+      // Mobile frame skipping for better performance
+      if (isMobile && frameSkip > 0) {
+        frameSkip--;
+        rafRef.current = requestAnimationFrame(draw);
+        return;
+      }
+      frameSkip = frameSkipCount;
+
       ctx.clearRect(0, 0, dimensions.width, dimensions.height);
 
       const horizonY = dimensions.height * 0.72;
@@ -94,20 +128,22 @@ export function HeroCanvas() {
       ctx.fillStyle = spaceBg;
       ctx.fillRect(0, 0, dimensions.width, dimensions.height);
 
-      // Milky way band
-      const mw = ctx.createRadialGradient(
-        dimensions.width * 0.5,
-        dimensions.height * 0.2,
-        0,
-        dimensions.width * 0.5,
-        dimensions.height * 0.2,
-        dimensions.width * 0.55,
-      );
-      mw.addColorStop(0, "rgba(80,120,200,0.06)");
-      mw.addColorStop(0.5, "rgba(50,80,160,0.03)");
-      mw.addColorStop(1, "transparent");
-      ctx.fillStyle = mw;
-      ctx.fillRect(0, 0, dimensions.width, dimensions.height);
+      // Milky way band (simplified on mobile)
+      if (!isMobile) {
+        const mw = ctx.createRadialGradient(
+          dimensions.width * 0.5,
+          dimensions.height * 0.2,
+          0,
+          dimensions.width * 0.5,
+          dimensions.height * 0.2,
+          dimensions.width * 0.55,
+        );
+        mw.addColorStop(0, "rgba(80,120,200,0.06)");
+        mw.addColorStop(0.5, "rgba(50,80,160,0.03)");
+        mw.addColorStop(1, "transparent");
+        ctx.fillStyle = mw;
+        ctx.fillRect(0, 0, dimensions.width, dimensions.height);
+      }
 
       // Twinkling stars
       stars.forEach((s) => {
@@ -116,7 +152,7 @@ export function HeroCanvas() {
         const a = s.alpha * (0.4 + 0.6 * twinkle);
         ctx.globalAlpha = a;
         ctx.fillStyle = "#ffffff";
-        ctx.shadowBlur = s.r > 1 ? 4 : 0;
+        ctx.shadowBlur = s.r > 1 ? (isMobile ? 2 : 4) : 0;
         ctx.shadowColor = "#aaccff";
         ctx.beginPath();
         ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
@@ -172,7 +208,7 @@ export function HeroCanvas() {
       ctx.fill();
       ctx.restore();
 
-      // Atmosphere glow layers
+      // Atmosphere glow layers (simplified on mobile)
       const atmoOuter = ctx.createRadialGradient(
         planetCX,
         planetCY,
@@ -207,8 +243,8 @@ export function HeroCanvas() {
       ctx.arc(planetCX, planetCY, planetRadius * 1.02, 0, Math.PI * 2);
       ctx.fill();
 
-      // Sunrise bloom
-      const breathe = 0.92 + 0.08 * Math.sin(tick * 0.008);
+      // Sunrise bloom (simplified on mobile)
+      const breathe = 0.92 + 0.08 * Math.sin(tick * (isMobile ? 0.004 : 0.008));
 
       const bloomWide = ctx.createRadialGradient(
         planetCX,
@@ -216,7 +252,7 @@ export function HeroCanvas() {
         0,
         planetCX,
         horizonY,
-        dimensions.width * 0.9 * breathe,
+        dimensions.width * (isMobile ? 0.6 : 0.9) * breathe,
       );
       bloomWide.addColorStop(0, "rgba(180,220,255,0.18)");
       bloomWide.addColorStop(0.08, "rgba(100,180,255,0.14)");
@@ -232,7 +268,7 @@ export function HeroCanvas() {
         0,
         planetCX,
         horizonY,
-        dimensions.width * 0.4 * breathe,
+        dimensions.width * (isMobile ? 0.25 : 0.4) * breathe,
       );
       bloomMid.addColorStop(0, "rgba(220,240,255,0.35)");
       bloomMid.addColorStop(0.1, "rgba(150,200,255,0.25)");
@@ -247,7 +283,7 @@ export function HeroCanvas() {
         0,
         planetCX,
         horizonY,
-        dimensions.width * 0.12 * breathe,
+        dimensions.width * (isMobile ? 0.08 : 0.12) * breathe,
       );
       bloomCore.addColorStop(0, "rgba(255,255,255,0.95)");
       bloomCore.addColorStop(0.05, "rgba(240,248,255,0.8)");
@@ -303,7 +339,7 @@ export function HeroCanvas() {
       }
       clearInterval(shooterInterval);
     };
-  }, [dimensions, shouldAnimate]);
+  }, [dimensions, shouldAnimate, isMobile]);
 
   // Early return if animations are disabled - render empty canvas
   if (!shouldAnimate) {

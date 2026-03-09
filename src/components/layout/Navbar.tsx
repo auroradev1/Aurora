@@ -50,7 +50,7 @@ export function Navbar({
             type="button"
             onClick={() => setMenuOpen((o) => !o)}
             className="flex flex-col gap-1.5 rounded p-1 border-none bg-transparent cursor-pointer focus:outline-none focus:ring-2 focus:ring-foreground sm:hidden"
-            aria-expanded={menuOpen ? "true" : "false"}
+            aria-expanded={menuOpen}
             aria-controls="nav-menu-mobile"
             aria-label="Toggle menu"
           >

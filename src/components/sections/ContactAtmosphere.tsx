@@ -1,16 +1,28 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useShouldAnimate } from "@/hooks/usePerformanceDetection";
 
 export function ContactAtmosphere() {
   const shouldAnimate = useShouldAnimate();
   const glowRef = useRef<HTMLDivElement>(null);
   const beamRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    // Only run complex animations if performance allows
-    if (!shouldAnimate) return;
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  useEffect(() => {
+    // Only run complex animations if performance allows and not on mobile
+    if (!shouldAnimate || isMobile) return;
 
     const glow = glowRef.current;
     const beam = beamRef.current;
@@ -60,7 +72,7 @@ export function ContactAtmosphere() {
         input.removeEventListener("blur", handleBlur);
       });
     };
-  }, [shouldAnimate]);
+  }, [shouldAnimate, isMobile]);
 
   return (
     <>

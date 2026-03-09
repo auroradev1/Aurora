@@ -15,6 +15,8 @@ export function Logo({ size = 36 }: { size?: number }) {
         height={size}
         className="shrink-0"
         priority
+        loading="eager"
+        fetchPriority="high"
       />
     </Link>
   );
