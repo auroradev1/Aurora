@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState, useLayoutEffect } from "react";
+import { useShouldAnimate } from "./usePerformanceDetection";
 
 type UseScrollRevealOptions = {
   threshold?: number;
@@ -9,24 +10,23 @@ type UseScrollRevealOptions = {
   stagger?: number;
 };
 
-export function useScrollReveal(options: UseScrollRevealOptions = {}) {
-  const {
-    threshold = 0.15,
-    rootMargin = "0px",
-    once = true,
-    stagger = 0,
-  } = options;
+export function useScrollReveal(options: UseScrollRevealOptions = {}): {
+  ref: React.MutableRefObject<HTMLElement | null>;
+  isVisible: boolean;
+} {
+  const { threshold = 0.15, rootMargin = "0px", once = true } = options;
+  const shouldAnimate = useShouldAnimate();
 
-  const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef<HTMLElement>(null);
+  const [isVisible, setIsVisible] = useState<boolean>(!shouldAnimate);
+  const ref = useRef<HTMLElement | null>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const element = ref.current;
-    if (!element) return;
+    if (!element || !shouldAnimate) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        if (entry?.isIntersecting) {
           setIsVisible(true);
           if (once) {
             observer.unobserve(element);
@@ -41,7 +41,7 @@ export function useScrollReveal(options: UseScrollRevealOptions = {}) {
     observer.observe(element);
 
     return () => observer.disconnect();
-  }, [threshold, rootMargin, once]);
+  }, [threshold, rootMargin, once, shouldAnimate]);
 
   return { ref, isVisible };
 }
@@ -49,24 +49,37 @@ export function useScrollReveal(options: UseScrollRevealOptions = {}) {
 export function useStaggeredReveal(
   containerRef: React.RefObject<HTMLElement>,
   options: UseScrollRevealOptions = {},
-) {
+): { visibleItems: Set<number> } {
   const {
     threshold = 0.15,
     rootMargin = "0px",
     once = true,
     stagger = 100,
   } = options;
+  const shouldAnimate = useShouldAnimate();
   const [visibleItems, setVisibleItems] = useState<Set<number>>(new Set());
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
+    // If animations are disabled, immediately set all items to visible
+    if (!shouldAnimate) {
+      const items = container.querySelectorAll("[data-stagger-item]");
+      const allIndexes = new Set<number>();
+      items.forEach((_, index) => allIndexes.add(index));
+      // Use setTimeout to avoid synchronous state update
+      setTimeout(() => {
+        setVisibleItems(allIndexes);
+      }, 0);
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        if (entry?.isIntersecting) {
           const items = container.querySelectorAll("[data-stagger-item]");
-          items.forEach((item, index) => {
+          items.forEach((_, index) => {
             setTimeout(() => {
               setVisibleItems((prev) => new Set([...prev, index]));
             }, index * stagger);
@@ -83,7 +96,7 @@ export function useStaggeredReveal(
     observer.observe(container);
 
     return () => observer.disconnect();
-  }, [containerRef, threshold, rootMargin, once, stagger]);
+  }, [containerRef, threshold, rootMargin, once, stagger, shouldAnimate]);
 
   return { visibleItems };
 }

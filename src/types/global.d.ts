@@ -49,3 +49,8 @@ declare module "*.styl" {
   const _: string;
   export default _;
 }
+
+// Window interface extension for performance detection hook
+interface Window {
+  __resizeTimer?: number | NodeJS.Timeout;
+}

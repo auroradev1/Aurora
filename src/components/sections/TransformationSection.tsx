@@ -1,4 +1,3 @@
-import { SectionHeader } from "@/components/ui/SectionHeader";
 import { TextLink } from "@/components/ui/TextLink";
 import { IconCard } from "@/components/ui/IconCard";
 
@@ -6,8 +5,14 @@ const ACCENT = "#2563eb";
 
 const bulletItems: [string, string][] = [
   ["Custom Dashboards", "See what matters most and ROI in real time."],
-  ["AI-Powered Insights", "Uncover actionable insights that drive smarter decisions."],
-  ["Integrated CRMs", "Manage, scale, and work care from a single intelligent platform."],
+  [
+    "AI-Powered Insights",
+    "Uncover actionable insights that drive smarter decisions.",
+  ],
+  [
+    "Integrated CRMs",
+    "Manage, scale, and work care from a single intelligent platform.",
+  ],
 ];
 
 const iconCardsData = [
@@ -15,7 +20,16 @@ const iconCardsData = [
     title: "Human-Centered AI",
     description: "Designed to enhance, not replace, human intelligence.",
     icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg
+        width="28"
+        height="28"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke={ACCENT}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
         <circle cx="9" cy="7" r="3" />
         <path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2" />
         <circle cx="17" cy="10" r="2" />
@@ -27,7 +41,16 @@ const iconCardsData = [
     title: "Scalable Innovation",
     description: "AI-powered tools designed to grow with your business.",
     icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg
+        width="28"
+        height="28"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke={ACCENT}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
         <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
         <polyline points="16 7 22 7 22 13" />
       </svg>
@@ -37,7 +60,16 @@ const iconCardsData = [
     title: "Transparency",
     description: "Clear insights into how AI decisions are made.",
     icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg
+        width="28"
+        height="28"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke={ACCENT}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
         <circle cx="12" cy="12" r="3" />
       </svg>
@@ -47,7 +79,16 @@ const iconCardsData = [
     title: "Efficiency",
     description: "Streamline operations and maximize productivity.",
     icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg
+        width="28"
+        height="28"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke={ACCENT}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
         <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
       </svg>
     ),
@@ -63,11 +104,17 @@ export function TransformationSection() {
     >
       <div className="max-w-[1100px] mx-auto">
         <div className="text-center mb-12">
-          <h2 id="transformation-title" className="font-display text-[clamp(36px,5vw,56px)] font-bold tracking-tight mb-5" style={{ letterSpacing: "-0.03em" }}>
+          <h2
+            id="transformation-title"
+            className="font-display text-[clamp(36px,5vw,56px)] font-bold tracking-tight mb-5"
+            style={{ letterSpacing: "-0.03em" }}
+          >
             Transformation
           </h2>
-          <p className="text-[var(--text-muted)] max-w-[600px] mx-auto leading-[1.8] text-[15px]">
-            With real-time data dashboards, growth analytics, and custom CRM Integration we&apos;re not just software — it&apos;s your company&apos;s AI nervous system. Data-Driven Intelligence at Every Step.
+          <p className="text-[#9CA3AF] max-w-[600px] mx-auto leading-[1.6] text-[16px]">
+            With real-time data dashboards, growth analytics, and custom CRM
+            integration we's not just software — it's your company's AI nervous
+            system. Data-Driven Intelligence at Every Step.
           </p>
         </div>
 
@@ -77,13 +124,19 @@ export function TransformationSection() {
           </p>
           {bulletItems.map(([bold, rest]) => (
             <div key={bold} className="flex gap-3 mb-3.5 items-start">
-              <span className="text-accent text-base leading-snug shrink-0">◆</span>
+              <span className="text-accent text-base leading-snug shrink-0">
+                ◆
+              </span>
               <p className="text-[14px] text-[var(--text-muted)] leading-[1.7]">
                 <strong className="text-foreground">{bold}:</strong> {rest}
               </p>
             </div>
           ))}
-          <TextLink label="See More" href="#contact" className="mt-2 inline-flex" />
+          <TextLink
+            label="See More"
+            href="#contact"
+            className="mt-2 inline-flex"
+          />
         </div>
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">

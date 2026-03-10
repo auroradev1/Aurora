@@ -218,6 +218,93 @@ a {
   }
 }
 
+/* Hide scroll bar while maintaining functionality */
+html {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+html::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* Responsive container fixes */
+.container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Fix mobile layout issues */
+section {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Ensure proper mobile responsiveness */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  section {
+    padding: 0 16px;
+  }
+
+  /* Fix grid layouts on mobile */
+  .grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-cols-3 {
+    grid-template-columns: 1fr;
+  }
+
+  /* Fix flex layouts on mobile */
+  .flex-col {
+    flex-direction: column;
+  }
+
+  /* Ensure proper text wrapping */
+  .text-left {
+    text-align: left;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  /* Fix hero section on mobile */
+  .min-h-\[100dvh\] {
+    min-height: 100vh;
+  }
+
+  /* Fix padding issues on mobile */
+  .px-8 {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .py-8 {
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+
+  @media (max-width: 480px) {
+    .px-8 {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+
+    .py-8 {
+      padding-top: 16px;
+      padding-bottom: 16px;
+    }
+  }
+}
+
 /* Form inputs — theme border and focus ring */
 input,
 textarea {

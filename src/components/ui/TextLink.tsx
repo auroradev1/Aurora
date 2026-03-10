@@ -3,7 +3,7 @@ import Link from "next/link";
 type TextLinkProps = {
   label: string;
   href: string;
-  onClick?: () => void;
+  onClick?: (() => void) | undefined;
   className?: string;
   showArrow?: boolean;
 };
@@ -40,7 +40,6 @@ export function TextLink({
   return (
     <Link
       href={href}
-      onClick={onClick}
       className={`text-link focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 rounded ${className}`}
     >
       {content}

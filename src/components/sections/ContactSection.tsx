@@ -90,7 +90,7 @@ export function ContactSection() {
             <h4 className="text-foreground text-lg font-semibold mb-2">
               Message sent
             </h4>
-            <p className="text-sm">We&apos;ll be in touch soon.</p>
+            <p className="text-sm">We'll be in touch soon.</p>
           </div>
         ) : (
           <form

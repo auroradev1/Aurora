@@ -24,10 +24,15 @@ export function FeatureCard({
           : "rounded-xl border border-[var(--border)] bg-[var(--surface)] p-6 transition-transform hover:-translate-y-0.5 sm:p-8"
       }
     >
-      <h3 className="font-display text-[22px] font-semibold tracking-tight text-foreground" style={{ letterSpacing: "-0.02em" }}>
+      <h3
+        className="font-display text-[22px] font-semibold tracking-tight text-foreground"
+        style={{ letterSpacing: "-0.02em" }}
+      >
         {title}
       </h3>
-      <p className="text-[14px] leading-[1.7] text-[var(--text-muted)] flex-1">{body}</p>
+      <p className="text-[14px] leading-[1.7] text-[var(--text-muted)] flex-1">
+        {body}
+      </p>
       <p className="mt-4">
         <TextLink label={linkLabel} href={linkHref} />
       </p>
@@ -37,7 +42,10 @@ export function FeatureCard({
 
 export function TwoColumnFeatureSection() {
   return (
-    <section className="px-6 py-16 sm:py-24" aria-labelledby="two-col-section-title">
+    <section
+      className="px-6 py-16 sm:py-24"
+      aria-labelledby="two-col-section-title"
+    >
       <h2 id="two-col-section-title" className="sr-only">
         Features
       </h2>
