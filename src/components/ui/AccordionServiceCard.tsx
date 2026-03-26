@@ -6,6 +6,7 @@ export type AccordionServiceCardProps = {
   details: string;
   icon?: React.ReactNode;
   href?: string | undefined;
+  className?: string;
 };
 
 export function AccordionServiceCard({
@@ -14,6 +15,7 @@ export function AccordionServiceCard({
   details,
   icon,
   href,
+  className,
 }: AccordionServiceCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -22,7 +24,9 @@ export function AccordionServiceCard({
   };
 
   return (
-    <div className="border border-[var(--border)] bg-[var(--surface)] rounded-lg overflow-hidden">
+    <div
+      className={`border border-[var(--border)] bg-[var(--surface)] rounded-lg overflow-hidden ${className || ""}`}
+    >
       <button
         type="button"
         onClick={toggleExpanded}

@@ -42,7 +42,7 @@ export function Footer() {
     <footer className="border-t border-[var(--border)] bg-[var(--bg)] py-8 px-8">
       <div className="mx-auto max-w-[1100px]">
         <div
-          className="grid grid-cols-2 gap-10 mb-12 md:grid-cols-4 text-center md:text-left"
+          className="grid grid-cols-1 gap-10 mb-12 sm:grid-cols-2 md:grid-cols-4 text-center md:text-left"
           role="navigation"
           aria-label="Footer"
         >

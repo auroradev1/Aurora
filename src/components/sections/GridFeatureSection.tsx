@@ -4,7 +4,7 @@ import { FeatureGridItem } from "@/components/ui/FeatureGridItem";
 import { AccordionServiceCard } from "@/components/ui/AccordionServiceCard";
 import type { FeatureGridItemProps } from "@/components/ui/FeatureGridItem";
 import { useStaggeredReveal } from "@/hooks/useScrollReveal";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 
 export const INTERLINK_FEATURES: FeatureGridItemProps[] = [
   {
@@ -34,26 +34,12 @@ export function GridFeatureSection() {
   );
 
   const [showAllServices, setShowAllServices] = useState(false);
-  const [isLargeScreen, setIsLargeScreen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkScreenSize = () => {
-      setIsLargeScreen(window.innerWidth >= 1024);
-      setIsMobile(window.innerWidth <= 768);
-    };
-
-    checkScreenSize();
-    window.addEventListener("resize", checkScreenSize, { passive: true });
-
-    return () => {
-      window.removeEventListener("resize", checkScreenSize);
-    };
-  }, []);
 
   const handleToggleServices = () => {
     setShowAllServices(!showAllServices);
   };
+
+  const ariaExpanded = showAllServices ? "true" : "false";
 
   // For mobile expanded view, we need detailed descriptions
   const serviceDetails = {
@@ -74,10 +60,10 @@ export function GridFeatureSection() {
   return (
     <section
       id="auroraverse"
-      className="w-full px-8 py-[100px] max-w-[1100px] mx-auto"
+      className="w-full px-6 py-[80px] max-w-[1100px] mx-auto sm:px-8"
       aria-labelledby="interlink-title"
     >
-      <div className="text-center mb-16">
+      <div className="text-center mb-12">
         <p className="text-accent text-xs uppercase tracking-[0.12em] mb-4">
           The Auroraverse
         </p>
@@ -94,39 +80,39 @@ export function GridFeatureSection() {
         </p>
       </div>
 
+      {/* Desktop grid - hidden on mobile */}
       <div
         ref={containerRef}
-        className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
+        className="hidden lg:grid grid-cols-3 gap-4 w-full"
       >
-        {INTERLINK_FEATURES.map((item, index) => {
-          // For large screens, show all cards
-          if (isLargeScreen) {
-            return (
-              <div
-                key={item.title}
-                data-stagger-item
-                className={`transition-all duration-300 ${
-                  visibleItems.has(index)
-                    ? "animate-fade-up opacity-100"
-                    : "opacity-0"
-                }`}
-                style={{
-                  animationDelay: `${index * 0.1}s`,
-                  transform: visibleItems.has(index)
-                    ? "translateY(0)"
-                    : "translateY(24px)",
-                }}
-              >
-                <FeatureGridItem
-                  title={item.title}
-                  subtitle={item.subtitle}
-                  href={item.href}
-                />
-              </div>
-            );
-          }
+        {INTERLINK_FEATURES.map((item, index) => (
+          <div
+            key={item.title}
+            data-stagger-item
+            className={`transition-all duration-300 ${
+              visibleItems.has(index)
+                ? "animate-fade-up opacity-100"
+                : "opacity-0"
+            }`}
+            style={{
+              animationDelay: `${index * 0.1}s`,
+              transform: visibleItems.has(index)
+                ? "translateY(0)"
+                : "translateY(24px)",
+            }}
+          >
+            <FeatureGridItem
+              title={item.title}
+              subtitle={item.subtitle}
+              href={item.href}
+            />
+          </div>
+        ))}
+      </div>
 
-          // For small screens
+      {/* Mobile accordion - hidden on desktop */}
+      <div className="lg:hidden grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+        {INTERLINK_FEATURES.map((item, index) => {
           const isInitiallyVisible = index < 2;
           const shouldShow = isInitiallyVisible || showAllServices;
 
@@ -169,6 +155,7 @@ export function GridFeatureSection() {
                       <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
                     </svg>
                   }
+                  className="w-full"
                 />
               </div>
             );
@@ -182,11 +169,28 @@ export function GridFeatureSection() {
       <div className="mt-8 flex justify-center lg:hidden">
         <button
           onClick={handleToggleServices}
-          className="text-link min-h-[44px] min-w-[44px] flex items-center justify-center"
-          aria-expanded={showAllServices ? "true" : "false"}
-          aria-controls="mobile-services-grid"
+          className="text-link min-h-[44px] min-w-[44px] flex items-center justify-center gap-2"
+          aria-expanded={ariaExpanded}
         >
-          {showAllServices ? "See Less Services ▲" : "See All Services ▼"}
+          {showAllServices ? "See Less Services" : "See All Services"}
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 20 20"
+            fill="none"
+            className={`transition-transform duration-200 ${
+              showAllServices ? "rotate-180" : "rotate-0"
+            }`}
+            aria-hidden="true"
+          >
+            <path
+              d="M5 8l5 5 5-5"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
         </button>
       </div>
     </section>

@@ -1,5 +1,6 @@
 import { TextLink } from "@/components/ui/TextLink";
 import { IconCard } from "@/components/ui/IconCard";
+import { IconCarousel } from "@/components/ui/IconCarousel";
 
 const ACCENT = "#2563eb";
 
@@ -99,7 +100,7 @@ export function TransformationSection() {
   return (
     <section
       id="solutions"
-      className="w-full border-y border-[var(--border)] bg-[var(--surface)] py-[100px] px-8"
+      className="w-full border-y border-[var(--border)] bg-[var(--surface)] py-[80px] px-8"
       aria-labelledby="transformation-title"
     >
       <div className="max-w-[1100px] mx-auto">
@@ -109,16 +110,16 @@ export function TransformationSection() {
             className="font-display text-[clamp(36px,5vw,56px)] font-bold tracking-tight mb-5"
             style={{ letterSpacing: "-0.03em" }}
           >
-            Transformation
+            Our Values
           </h2>
           <p className="text-[#9CA3AF] max-w-[600px] mx-auto leading-[1.6] text-[16px]">
             With real-time data dashboards, growth analytics, and custom CRM
-            integration we's not just software — it's your company's AI nervous
-            system. Data-Driven Intelligence at Every Step.
+            integration we&#39;s not just software — it&#39;s your company&#39;s
+            AI nervous system. Data-Driven Intelligence at Every Step.
           </p>
         </div>
 
-        <div className="mx-auto mb-16 max-w-[640px] rounded-xl border border-[var(--border)] bg-[var(--surface-alt)] px-9 py-8">
+        <div className="mx-auto mb-12 max-w-[640px] rounded-xl border border-[var(--border)] bg-[var(--surface-alt)] px-6 py-8 sm:px-9">
           <p className="text-[var(--text-muted)] text-[13px] uppercase tracking-wider mb-5">
             Track a brand product includes:
           </p>
@@ -139,15 +140,22 @@ export function TransformationSection() {
           />
         </div>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {iconCardsData.map((card) => (
-            <IconCard
-              key={card.title}
-              icon={card.icon}
-              title={card.title}
-              description={card.description}
-            />
-          ))}
+        <div className="bg-[rgba(37,99,235,0.03)] rounded-2xl p-8">
+          {/* Desktop: 4-column grid — hidden below lg */}
+          <div className="hidden lg:grid grid-cols-4 gap-6 justify-items-center">
+            {iconCardsData.map((card) => (
+              <IconCard
+                key={card.title}
+                icon={card.icon}
+                title={card.title}
+                description={card.description}
+              />
+            ))}
+          </div>
+          {/* Mobile/Tablet: Carousel — hidden on lg+ */}
+          <div className="lg:hidden">
+            <IconCarousel items={iconCardsData} />
+          </div>
         </div>
       </div>
     </section>
