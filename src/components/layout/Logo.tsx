@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export function Logo({ size = 22 }: { size?: number }) {
+export function Logo({ size = 104 }: { size?: number }) {
   return (
     <Link
       href="/"
@@ -13,7 +13,7 @@ export function Logo({ size = 22 }: { size?: number }) {
         alt="Aurora logo"
         width={size}
         height={size}
-        className="w-auto h-auto"
+        className="w-[104px] h-[104px] sm:w-[136px] sm:h-[136px] md:w-[160px] md:h-[160px]"
         priority
         loading="eager"
         fetchPriority="high"
