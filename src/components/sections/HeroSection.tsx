@@ -20,19 +20,10 @@ const HERO_CARDS = [
 export function HeroSection() {
   return (
     <section
-      className="relative flex min-h-[100dvh] flex-col justify-center px-6 pb-20 pt-[120px] w-full max-w-[1100px] mx-auto sm:px-8 overflow-hidden"
+      className="relative flex min-h-[100dvh] flex-col justify-center px-6 pb-10 pt-[60px] w-full max-w-[1100px] mx-auto sm:px-8 overflow-hidden"
       aria-labelledby="hero-headline"
     >
       <HeroCanvas />
-
-      {/* Enhanced background glow */}
-      <div
-        className="pointer-events-none absolute left-[-10%] top-[20%] h-[500px] w-[500px] rounded-full opacity-100"
-        style={{
-          background: `radial-gradient(circle, rgba(37, 99, 235, 0.07) 0%, transparent 70%)`,
-          animation: "pulse 4s ease-in-out infinite",
-        }}
-      />
 
       <div
         className="animate-fade-up opacity-0"
