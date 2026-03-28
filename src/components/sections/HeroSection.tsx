@@ -1,4 +1,3 @@
-import { TextLink } from "@/components/ui/TextLink";
 import { FeatureCard } from "./TwoColumnFeatureSection";
 import { HeroCanvas } from "./HeroCanvas";
 
@@ -20,7 +19,7 @@ const HERO_CARDS = [
 export function HeroSection() {
   return (
     <section
-      className="relative flex min-h-[100dvh] flex-col justify-center px-6 pb-10 pt-[60px] w-full max-w-[1100px] mx-auto sm:px-8 overflow-hidden"
+      className="relative flex min-h-[100dvh] flex-col justify-center px-6 pb-10 pt-[30px] w-full max-w-[1100px] mx-auto sm:px-8 overflow-hidden"
       aria-labelledby="hero-headline"
     >
       <HeroCanvas />
@@ -40,17 +39,6 @@ export function HeroSection() {
           <br />
           through Intelligence.
         </h1>
-      </div>
-
-      <div
-        className="animate-fade-up opacity-0"
-        style={{ animationDelay: "0.25s" }}
-      >
-        <TextLink
-          label="Step Into The Light"
-          href="#solutions"
-          className="text-sm mb-[72px] inline-flex"
-        />
       </div>
 
       <div

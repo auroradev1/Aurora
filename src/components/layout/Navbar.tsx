@@ -38,7 +38,7 @@ export function Navbar({
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-[100] flex h-[76px] items-center justify-between px-6 py-4 sm:px-8 transition-[background,border-color,backdrop-filter] duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-[100] flex h-[76px] items-center px-6 py-4 sm:px-8 transition-[background,border-color,backdrop-filter] duration-300 ${
         scrolled
           ? "border-b border-[var(--border)] bg-[var(--bg)]/93 backdrop-blur-[12px]"
           : "border-b border-transparent bg-transparent"
@@ -49,7 +49,7 @@ export function Navbar({
         aria-label="Main navigation"
       >
         {logo}
-        <div className="hidden sm:flex sm:items-center sm:gap-8">
+        <div className="hidden sm:flex sm:items-center sm:gap-8 ml-auto">
           <NavMenu items={navItems} />
           <CTAButton
             label={ctaLabel}
@@ -64,7 +64,7 @@ export function Navbar({
             type="button"
             onClick={() => setMenuOpen((o) => !o)}
             className="flex flex-col gap-1.5 rounded p-1 border-none bg-transparent cursor-pointer focus:outline-none focus:ring-2 focus:ring-foreground sm:hidden"
-            aria-expanded={menuOpen ? "true" : "false"}
+            aria-expanded={menuOpen}
             aria-controls={menuOpen ? "nav-menu-mobile" : undefined}
             aria-label="Toggle menu"
           >
