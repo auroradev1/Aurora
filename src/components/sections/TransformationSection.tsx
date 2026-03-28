@@ -2,7 +2,7 @@ import { TextLink } from "@/components/ui/TextLink";
 import { IconCard } from "@/components/ui/IconCard";
 import { IconCarousel } from "@/components/ui/IconCarousel";
 
-const ACCENT = "#2563eb";
+const ACCENT = "#1a9fb3";
 
 const bulletItems: [string, string][] = [
   ["Custom Dashboards", "See what matters most and ROI in real time."],
@@ -100,8 +100,8 @@ export function TransformationSection() {
   return (
     <section
       id="solutions"
-      className="w-full border-y border-[var(--border)] bg-[var(--surface)] py-[80px] px-8"
-      aria-labelledby="transformation-title"
+      className="w-full border-y border-[var(--border)] py-[80px] px-8"
+      aria-labelledby="transformation-heading"
     >
       <div className="max-w-[1100px] mx-auto">
         <div className="text-center mb-12">
@@ -140,7 +140,7 @@ export function TransformationSection() {
           />
         </div>
 
-        <div className="bg-[rgba(37,99,235,0.03)] rounded-2xl p-8">
+        <div className="rounded-2xl p-8">
           {/* Desktop: 4-column grid — hidden below lg */}
           <div className="hidden lg:grid grid-cols-4 gap-6 justify-items-center">
             {iconCardsData.map((card) => (

@@ -5,7 +5,7 @@ export function Logo({ size = 104 }: { size?: number }) {
   return (
     <Link
       href="/"
-      className="flex items-center gap-3 text-foreground hover:opacity-90 transition-opacity focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2 focus:ring-offset-background rounded h-full"
+      className="flex items-center gap-3 md:px-4 text-foreground hover:opacity-90 transition-opacity focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2 focus:ring-offset-background rounded h-full"
       aria-label="Aurora home"
     >
       <Image
@@ -13,7 +13,7 @@ export function Logo({ size = 104 }: { size?: number }) {
         alt="Aurora logo"
         width={size}
         height={size}
-        className="h-full w-auto max-w-[104px] sm:max-w-[136px] md:max-w-[160px]"
+        className="h-full w-auto max-w-[104px] sm:max-w-[136px] md:max-w-[160px] md:py-2"
         priority
         loading="eager"
         fetchPriority="high"

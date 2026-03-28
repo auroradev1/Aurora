@@ -31,10 +31,10 @@ export function CTAButton({
     lg: "px-7 py-3 text-[15px]",
   };
   const baseClass =
-    "inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-[background-color,color,border-color,transform,box-shadow,opacity] duration-200 focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2 focus:ring-offset-background disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap relative overflow-hidden";
+    "inline-flex items-center justify-center gap-2 rounded-[var(--radius-cta)] font-medium transition-[background-color,color,border-color,transform,box-shadow,opacity] duration-200 focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2 focus:ring-offset-background disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap relative overflow-hidden";
   const variantClass = {
     primary:
-      "bg-accent text-white hover:bg-[var(--accent-hover)] hover:-translate-y-px hover:shadow-[0_0_20px_rgba(37,99,235,0.25)]",
+      "bg-accent text-white hover:bg-[var(--accent-hover)] hover:-translate-y-px hover:shadow-[0_0_20px_rgba(26,159,179,var(--glow-opacity))]",
     outline:
       "bg-transparent text-foreground border border-[var(--border)] hover:border-accent hover:-translate-y-px",
     ghost: "bg-transparent text-accent border-none hover:bg-foreground/5",
@@ -83,7 +83,7 @@ export function CTAButton({
           rel="noopener noreferrer"
           onClick={handleClick}
           className={combinedClass}
-          aria-disabled={disabled || loading}
+          aria-disabled={disabled || loading ? "true" : "false"}
         >
           {content}
         </a>
@@ -93,7 +93,7 @@ export function CTAButton({
       <Link
         href={href}
         className={combinedClass}
-        aria-disabled={disabled || loading}
+        aria-disabled={disabled || loading ? "true" : "false"}
       >
         {content}
       </Link>

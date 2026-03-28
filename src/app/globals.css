@@ -6,11 +6,17 @@
   --surface: #111111;
   --surface-alt: #161616;
   --border: #222222;
-  --accent: #2563eb;
-  --accent-hover: #3b82f6;
+  --accent: #1a9fb3;
+  --accent-hover: #2ab5cc;
   --text: #f5f5f5;
   --text-muted: #888888;
   --text-dim: #555555;
+  --glow-opacity: 0.15;
+  /* Border Radius */
+  --radius-cta: 20px;
+  --radius-feature: 28px;
+  --radius-input: 16px;
+  --radius-icon-card: 24px;
   /* Tailwind mapping */
   --background: var(--bg);
   --foreground: var(--text);
@@ -24,6 +30,10 @@
   --color-foreground: var(--foreground);
   --color-accent: var(--accent);
   --color-card: var(--card);
+  --radius-cta: var(--radius-cta);
+  --radius-feature: var(--radius-feature);
+  --radius-input: var(--radius-input);
+  --radius-icon-card: var(--radius-icon-card);
   --font-sans: var(--font-dm-sans);
   --font-display: var(--font-syne);
   --font-mono: ui-monospace, monospace;
@@ -160,31 +170,45 @@ a {
   display: block;
   padding: 32px 24px;
   border: 1px solid var(--border);
-  border-radius: 12px;
-  background: var(--surface);
+  border-radius: var(--radius-feature);
+  background: rgba(17, 17, 17, 0.6);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   transition:
     border-color 0.25s,
     background 0.25s,
-    transform 0.25s;
+    transform 0.25s,
+    box-shadow 0.25s;
   text-decoration: none;
   color: inherit;
+  box-shadow: 0 0 10px rgba(26, 159, 179, 0.2);
 }
 
 .grid-item-link:hover {
-  border-color: rgba(37, 99, 235, 0.38);
-  background: var(--surface-alt);
+  border-color: rgba(26, 159, 179, 0.38);
+  background: rgba(22, 22, 22, 0.7);
   transform: translateY(-3px);
+  box-shadow: 0 0 20px rgba(26, 159, 179, 0.35);
 }
 
 /* Icon card — lift on hover */
 .icon-card {
   text-align: center;
   padding: 24px 16px;
-  transition: transform 0.25s;
+  border-radius: var(--radius-icon-card);
+  background: rgba(17, 17, 17, 0.6);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+  transition:
+    transform 0.25s,
+    box-shadow 0.25s;
+  box-shadow: 0 0 15px rgba(26, 159, 179, 0.2);
 }
 
 .icon-card:hover {
   transform: translateY(-4px);
+  box-shadow: 0 0 20px rgba(26, 159, 179, 0.35);
 }
 
 /* Reduced motion support */
@@ -264,7 +288,7 @@ input,
 textarea {
   background: var(--surface-alt);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius-input);
   color: var(--text);
   font-family: inherit;
   font-size: 14px;
@@ -286,5 +310,5 @@ input:focus,
 textarea:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.09);
+  box-shadow: 0 0 0 3px rgba(26, 159, 179, 0.15);
 }
