@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useScrollDirection } from "@/hooks/useScrollDirection";
 import { useScrollPosition } from "@/hooks/useScrollPosition";
 import { NavMenu } from "./NavMenu";
 import { CTAButton } from "../ui/CTAButton";
@@ -22,6 +23,7 @@ export function Navbar({
 }: NavbarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const scrolled = useScrollPosition(20);
+  const show = useScrollDirection(50);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -38,14 +40,16 @@ export function Navbar({
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-[100] flex h-[76px] items-center px-6 py-4 sm:px-8 transition-[background,border-color,backdrop-filter] duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-[100] flex items-center justify-between px-6 py-0 sm:px-8 transition-[background,border-color,backdrop-filter,height,transform] duration-300 ${
+        show ? "translate-y-0" : "-translate-y-full"
+      } ${
         scrolled
-          ? "border-b border-[var(--border)] bg-[var(--bg)]/93 backdrop-blur-[12px]"
-          : "border-b border-transparent bg-transparent"
+          ? "h-[64px] border-b border-[var(--border)] bg-[var(--bg)]/93 backdrop-blur-[12px] shadow-md"
+          : "h-[76px] border-b border-transparent bg-transparent"
       }`}
     >
       <nav
-        className="flex w-full max-w-[1100px] mx-auto items-center justify-between"
+        className="flex w-full max-w-[1100px] mx-auto items-center justify-between h-full"
         aria-label="Main navigation"
       >
         {logo}
