@@ -31,7 +31,7 @@ export function CTAButton({
     lg: "px-7 py-3 text-[15px]",
   };
   const baseClass =
-    "inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2 focus:ring-offset-background disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap relative overflow-hidden";
+    "inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-[background-color,color,border-color,transform,box-shadow,opacity] duration-200 focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2 focus:ring-offset-background disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap relative overflow-hidden";
   const variantClass = {
     primary:
       "bg-accent text-white hover:bg-[var(--accent-hover)] hover:-translate-y-px hover:shadow-[0_0_20px_rgba(37,99,235,0.25)]",

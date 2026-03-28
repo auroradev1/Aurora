@@ -13,7 +13,7 @@ export function Logo({ size = 36 }: { size?: number }) {
         alt="Aurora logo"
         width={size}
         height={size}
-        className="shrink-0"
+        className="w-auto h-auto max-w-[64px] sm:max-w-none"
         priority
         loading="eager"
         fetchPriority="high"

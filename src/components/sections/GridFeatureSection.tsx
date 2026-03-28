@@ -111,7 +111,7 @@ export function GridFeatureSection() {
       </div>
 
       {/* Mobile accordion - hidden on desktop */}
-      <div className="lg:hidden grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+      <div className="lg:hidden grid grid-cols-1 gap-4 w-full">
         {INTERLINK_FEATURES.map((item, index) => {
           const isInitiallyVisible = index < 2;
           const shouldShow = isInitiallyVisible || showAllServices;
@@ -121,7 +121,7 @@ export function GridFeatureSection() {
               <div
                 key={item.title}
                 data-stagger-item
-                className={`transition-all duration-300 ${
+                className={`transition-all duration-300 w-full ${
                   visibleItems.has(index)
                     ? "animate-fade-up opacity-100"
                     : "opacity-0"

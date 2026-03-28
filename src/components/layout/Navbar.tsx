@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useScrollPosition } from "@/hooks/useScrollPosition";
 import { NavMenu } from "./NavMenu";
 import { CTAButton } from "../ui/CTAButton";
@@ -22,6 +22,19 @@ export function Navbar({
 }: NavbarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const scrolled = useScrollPosition(20);
+  const hamburgerRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setMenuOpen(false);
+        hamburgerRef.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [menuOpen]);
 
   return (
     <header
@@ -47,11 +60,12 @@ export function Navbar({
         </div>
         <div className="flex items-center gap-4 sm:hidden">
           <button
+            ref={hamburgerRef}
             type="button"
             onClick={() => setMenuOpen((o) => !o)}
             className="flex flex-col gap-1.5 rounded p-1 border-none bg-transparent cursor-pointer focus:outline-none focus:ring-2 focus:ring-foreground sm:hidden"
             aria-expanded={menuOpen ? "true" : "false"}
-            aria-controls="nav-menu-mobile"
+            aria-controls={menuOpen ? "nav-menu-mobile" : undefined}
             aria-label="Toggle menu"
           >
             {[0, 1, 2].map((i) => (

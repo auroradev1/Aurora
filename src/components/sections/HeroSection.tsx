@@ -20,7 +20,7 @@ const HERO_CARDS = [
 export function HeroSection() {
   return (
     <section
-      className="relative flex min-h-[100dvh] flex-col justify-center px-6 pb-20 pt-[120px] w-full max-w-[1100px] mx-auto sm:px-8"
+      className="relative flex min-h-[100dvh] flex-col justify-center px-6 pb-20 pt-[120px] w-full max-w-[1100px] mx-auto sm:px-8 overflow-hidden"
       aria-labelledby="hero-headline"
     >
       <HeroCanvas />

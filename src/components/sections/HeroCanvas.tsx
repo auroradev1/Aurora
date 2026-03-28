@@ -347,7 +347,7 @@ export function HeroCanvas() {
       <canvas
         ref={canvasRef}
         id="hero-canvas"
-        className="fixed inset-0 w-screen h-screen pointer-events-none"
+        className="fixed inset-0 w-full h-full pointer-events-none"
         style={{ willChange: "transform", zIndex: -1 }}
       />
     );
@@ -357,7 +357,7 @@ export function HeroCanvas() {
     <canvas
       ref={canvasRef}
       id="hero-canvas"
-      className="fixed inset-0 w-screen h-screen pointer-events-none"
+      className="fixed inset-0 w-full h-full pointer-events-none"
       style={{ willChange: "transform", zIndex: -1 }}
     />
   );

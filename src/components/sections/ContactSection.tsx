@@ -4,7 +4,6 @@ import { useState } from "react";
 import { TextInput } from "@/components/ui/TextInput";
 import { TextareaInput } from "@/components/ui/TextareaInput";
 import { CTAButton } from "@/components/ui/CTAButton";
-import { ContactAtmosphere } from "./ContactAtmosphere";
 
 type FormErrors = Record<string, string | undefined>;
 
@@ -55,7 +54,6 @@ export function ContactSection() {
       className="w-full px-8 py-[100px] relative overflow-hidden"
       aria-labelledby="contact-title"
     >
-      <ContactAtmosphere />
       <div className="mx-auto max-w-[680px] rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-[clamp(32px,5vw,60px)] relative z-10">
         <div className="text-center mb-10">
           <h2
@@ -98,8 +96,8 @@ export function ContactSection() {
             noValidate
             className="flex flex-col gap-4"
           >
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-              <div>
+            <div className="grid grid-cols-1 gap-3">
+              <div className="w-full">
                 <TextInput
                   name="name"
                   label=""
@@ -112,7 +110,7 @@ export function ContactSection() {
                   error={errors.name}
                 />
               </div>
-              <div>
+              <div className="w-full">
                 <TextInput
                   name="email"
                   label=""
