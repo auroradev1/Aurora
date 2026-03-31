@@ -13,10 +13,10 @@
   --text-dim: #555555;
   --glow-opacity: 0.15;
   /* Border Radius */
-  --radius-cta: 20px;
-  --radius-feature: 28px;
-  --radius-input: 16px;
-  --radius-icon-card: 24px;
+  --radius-cta: 9999px;
+  --radius-feature: 32px;
+  --radius-input: 9999px;
+  --radius-icon-card: 32px;
   /* Tailwind mapping */
   --background: var(--bg);
   --foreground: var(--text);
@@ -124,7 +124,7 @@ a {
 /* Nav link — muted until hover */
 .nav-link {
   color: var(--text-muted);
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 400;
   transition: color 0.2s;
 }
@@ -136,20 +136,20 @@ a {
 /* Text link with arrow — accent, gap grows on hover */
 .text-link {
   color: var(--accent);
-  font-size: 13px;
+  font-size: 14px;
   letter-spacing: 0.04em;
   font-weight: 500;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   transition:
-    gap 0.2s,
-    color 0.2s;
+    gap 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.3s ease;
 }
 
 .text-link:hover {
   color: var(--accent-hover);
-  gap: 10px;
+  gap: 12px;
 }
 
 /* Footer link */
@@ -169,26 +169,38 @@ a {
 .grid-item-link {
   display: block;
   padding: 32px 24px;
-  border: 1px solid var(--border);
+  border: 1px solid rgba(26, 159, 179, 0.2);
   border-radius: var(--radius-feature);
-  background: rgba(17, 17, 17, 0.6);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+  background: linear-gradient(
+    135deg,
+    rgba(17, 17, 17, 0.8),
+    rgba(17, 17, 17, 0.4)
+  );
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
   transition:
-    border-color 0.25s,
-    background 0.25s,
-    transform 0.25s,
-    box-shadow 0.25s;
+    border-color 0.3s ease,
+    background 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   text-decoration: none;
   color: inherit;
-  box-shadow: 0 0 10px rgba(26, 159, 179, 0.2);
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.3),
+    0 0 15px rgba(26, 159, 179, 0.1);
 }
 
 .grid-item-link:hover {
-  border-color: rgba(26, 159, 179, 0.38);
-  background: rgba(22, 22, 22, 0.7);
-  transform: translateY(-3px);
-  box-shadow: 0 0 20px rgba(26, 159, 179, 0.35);
+  border-color: rgba(26, 159, 179, 0.5);
+  background: linear-gradient(
+    135deg,
+    rgba(22, 22, 22, 0.9),
+    rgba(22, 22, 22, 0.5)
+  );
+  transform: translateY(-4px);
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.4),
+    0 0 25px rgba(26, 159, 179, 0.25);
 }
 
 /* Icon card — lift on hover */
@@ -196,19 +208,27 @@ a {
   text-align: center;
   padding: 24px 16px;
   border-radius: var(--radius-icon-card);
-  background: rgba(17, 17, 17, 0.6);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--border);
+  background: linear-gradient(
+    135deg,
+    rgba(17, 17, 17, 0.8),
+    rgba(17, 17, 17, 0.4)
+  );
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(26, 159, 179, 0.2);
   transition:
-    transform 0.25s,
-    box-shadow 0.25s;
-  box-shadow: 0 0 15px rgba(26, 159, 179, 0.2);
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+  box-shadow:
+    0 4px 15px rgba(0, 0, 0, 0.2),
+    0 0 10px rgba(26, 159, 179, 0.1);
 }
 
 .icon-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 0 20px rgba(26, 159, 179, 0.35);
+  transform: translateY(-6px);
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(26, 159, 179, 0.25);
 }
 
 /* Reduced motion support */

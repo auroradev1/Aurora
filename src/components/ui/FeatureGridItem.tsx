@@ -36,21 +36,17 @@ export function FeatureGridItem({
     const isExternal = href.startsWith("http");
     if (isExternal) {
       return (
-        <li>
-          <a href={href} className="grid-item-link">
-            {content}
-          </a>
-        </li>
+        <a href={href} className="grid-item-link">
+          {content}
+        </a>
       );
     }
     return (
-      <li>
-        <Link href={href} className="grid-item-link">
-          {content}
-        </Link>
-      </li>
+      <Link href={href} className="grid-item-link">
+        {content}
+      </Link>
     );
   }
 
-  return <li className="grid-item-link cursor-default">{content}</li>;
+  return <div className="grid-item-link cursor-default">{content}</div>;
 }

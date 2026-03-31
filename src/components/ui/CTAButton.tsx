@@ -34,10 +34,11 @@ export function CTAButton({
     "inline-flex items-center justify-center gap-2 rounded-[var(--radius-cta)] font-medium transition-[background-color,color,border-color,transform,box-shadow,opacity] duration-200 focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2 focus:ring-offset-background disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap relative overflow-hidden";
   const variantClass = {
     primary:
-      "bg-accent text-white hover:bg-[var(--accent-hover)] hover:-translate-y-px hover:shadow-[0_0_20px_rgba(26,159,179,var(--glow-opacity))]",
+      "bg-accent text-white hover:bg-[var(--accent-hover)] hover:-translate-y-1.5 hover:shadow-[0_10px_30px_rgba(26,159,179,0.3),0_0_50px_rgba(26,159,179,0.2)] focus:shadow-[0_0_0_4px_rgba(26,159,179,0.3)] transition-all duration-300",
     outline:
-      "bg-transparent text-foreground border border-[var(--border)] hover:border-accent hover:-translate-y-px",
-    ghost: "bg-transparent text-accent border-none hover:bg-foreground/5",
+      "bg-transparent text-foreground border border-[var(--border)] hover:border-accent hover:-translate-y-1.5 hover:shadow-[0_10px_30px_rgba(26,159,179,0.2),0_0_40px_rgba(26,159,179,0.1)] focus:shadow-[0_0_0_4px_rgba(26,159,179,0.2)] transition-all duration-300",
+    ghost:
+      "bg-transparent text-accent border-none hover:bg-accent/10 focus:shadow-[0_0_0_4px_rgba(26,159,179,0.2)] transition-all duration-300",
   };
 
   const combinedClass = `${baseClass} ${sizeClass[size]} ${variantClass[variant]} ${className}`;
@@ -83,7 +84,7 @@ export function CTAButton({
           rel="noopener noreferrer"
           onClick={handleClick}
           className={combinedClass}
-          aria-disabled={disabled || loading ? "true" : "false"}
+          aria-disabled={disabled || loading}
         >
           {content}
         </a>
@@ -93,7 +94,7 @@ export function CTAButton({
       <Link
         href={href}
         className={combinedClass}
-        aria-disabled={disabled || loading ? "true" : "false"}
+        aria-disabled={disabled || loading}
       >
         {content}
       </Link>

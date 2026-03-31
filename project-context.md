@@ -7,7 +7,7 @@ for an AI consulting/development company targeting enterprise B2B clients.
 
 ## Tech Stack
 
-- **Framework**: Next.js 15.1.6 (App Router)
+- **Framework**: Next.js 16.1.6 (App Router)
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS v4 with PostCSS (no external UI libraries)
 - **React**: v19.2.3 with React Compiler (babel-plugin-react-compiler)
@@ -25,7 +25,7 @@ for an AI consulting/development company targeting enterprise B2B clients.
 **Color Palette:**
 | Token | Value | Usage |
 |-------------|-----------|--------------------------|
-| Primary | #2563eb | Accents, CTAs, highlights |
+| Primary | #1a9fb3 | Accents, CTAs, highlights |
 | Background | #0a0a0a | Page background |
 | Surface | #111111 | Cards, elevated elements |
 | Foreground | #f5f5f5 | Primary text |

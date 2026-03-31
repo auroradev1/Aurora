@@ -24,7 +24,7 @@ export const INTERLINK_FEATURES: FeatureGridItemProps[] = [
 ];
 
 export function GridFeatureSection() {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLUListElement>(null);
   const { visibleItems } = useStaggeredReveal(
     containerRef as React.RefObject<HTMLElement>,
     {
@@ -81,12 +81,12 @@ export function GridFeatureSection() {
       </div>
 
       {/* Desktop grid - hidden on mobile */}
-      <div
+      <ul
         ref={containerRef}
         className="hidden lg:grid grid-cols-3 gap-4 w-full"
       >
         {INTERLINK_FEATURES.map((item, index) => (
-          <div
+          <li
             key={item.title}
             data-stagger-item
             className={`transition-all duration-300 ${
@@ -106,19 +106,19 @@ export function GridFeatureSection() {
               subtitle={item.subtitle}
               href={item.href}
             />
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
 
       {/* Mobile accordion - hidden on desktop */}
-      <div className="lg:hidden grid grid-cols-1 gap-4 w-full">
+      <ul className="lg:hidden grid grid-cols-1 gap-4 w-full">
         {INTERLINK_FEATURES.map((item, index) => {
           const isInitiallyVisible = index < 2;
           const shouldShow = isInitiallyVisible || showAllServices;
 
           if (shouldShow) {
             return (
-              <div
+              <li
                 key={item.title}
                 data-stagger-item
                 className={`transition-all duration-300 w-full ${
@@ -157,20 +157,20 @@ export function GridFeatureSection() {
                   }
                   className="w-full"
                 />
-              </div>
+              </li>
             );
           }
 
           return null;
         })}
-      </div>
+      </ul>
 
       {/* Mobile "See All Services" CTA */}
       <div className="mt-8 flex justify-center lg:hidden">
         <button
           onClick={handleToggleServices}
           className="text-link min-h-[44px] min-w-[44px] flex items-center justify-center gap-2"
-          aria-expanded={ariaExpanded}
+          aria-expanded={showAllServices}
         >
           {showAllServices ? "See Less Services" : "See All Services"}
           <svg

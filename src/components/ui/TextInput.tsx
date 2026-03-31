@@ -34,21 +34,27 @@ export function TextInput({
           {label}
         </label>
       )}
-      <input
-        id={id}
-        name={name}
-        type={type}
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-        required={required}
-        disabled={disabled}
-        aria-invalid={error ? true : false}
-        aria-describedby={error ? `${id}-error` : undefined}
-        className={`w-full border bg-[var(--surface-alt)] px-4 py-3 text-foreground placeholder:text-[var(--text-dim)] rounded-lg focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed ${
-          error ? "border-red-500" : "border-[var(--border)]"
+      <div
+        className={`relative w-full rounded-[var(--radius-input)] p-[1px] transition-all duration-300 ${
+          error
+            ? "bg-red-500"
+            : "bg-[var(--border)] focus-within:bg-accent focus-within:shadow-[0_0_15px_rgba(26,159,179,0.3)]"
         }`}
-      />
+      >
+        <input
+          id={id}
+          name={name}
+          type={type}
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          required={required}
+          disabled={disabled}
+          aria-invalid={!!error}
+          aria-describedby={error ? `${id}-error` : undefined}
+          className="w-full bg-[var(--surface-alt)] px-4 py-3 text-foreground placeholder:text-[var(--text-dim)] rounded-[calc(var(--radius-input)-1px)] focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed border-none shadow-inner"
+        />
+      </div>
       {error && (
         <p
           id={`${id}-error`}

@@ -40,8 +40,19 @@ export function ContactSection() {
     }
     setErrors({});
     setStatus("submitting");
-    await new Promise((r) => setTimeout(r, 1400));
-    setStatus("success");
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(fields),
+      });
+      if (!response.ok) throw new Error("Failed to send message");
+      setStatus("success");
+    } catch (error) {
+      console.error(error);
+      setStatus("idle");
+      setErrors({ message: "Failed to send message. Please try again later." });
+    }
   };
 
   const clearError = (field: string) => {
@@ -54,7 +65,7 @@ export function ContactSection() {
       className="w-full px-8 py-[100px] relative overflow-hidden"
       aria-labelledby="contact-title"
     >
-      <div className="mx-auto max-w-[680px] rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-[clamp(32px,5vw,60px)] relative z-10">
+      <div className="mx-auto max-w-[680px] rounded-[32px] border border-[rgba(26,159,179,0.2)] bg-[rgba(17,17,17,0.6)] backdrop-blur-[16px] p-[clamp(32px,5vw,60px)] relative z-10 shadow-[0_0_30px_rgba(26,159,179,0.1)]">
         <div className="text-center mb-10">
           <h2
             id="contact-title"
@@ -71,14 +82,14 @@ export function ContactSection() {
 
         {status === "success" ? (
           <div className="text-center py-10 px-5 text-[var(--text-muted)]">
-            <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-[rgba(37,99,235,0.09)]">
+            <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-[rgba(26,159,179,0.1)] border border-[rgba(26,159,179,0.2)]">
               <svg
-                width="24"
-                height="24"
+                width="40"
+                height="40"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="var(--accent)"
-                strokeWidth="2"
+                strokeWidth="2.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >

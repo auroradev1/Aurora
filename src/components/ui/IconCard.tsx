@@ -6,8 +6,8 @@ type IconCardProps = {
 
 export function IconCard({ icon, title, description }: IconCardProps) {
   return (
-    <div className="icon-card">
-      <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-[14px] border border-[rgba(37,99,235,0.16)] bg-[rgba(37,99,235,0.08)]">
+    <div className="icon-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-[var(--radius-icon-card)]">
+      <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-[14px] border border-[rgba(26,159,179,0.2)] bg-[rgba(26,159,179,0.08)]">
         {icon}
       </div>
       <h4
